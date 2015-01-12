@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import pygtk
+pygtk.require('2.0')
+import gtk
+
+class DeepFuture:         
+    def blogurlshow(self):
+        print("我的博客是deepfuture.javaeye.com")
+    def mynameshow(self):
+        print("我是deepfuture")
+    def myname(self):
+	print("my name is swift")
+	dialog = gtk.MessageDialog(self, 0, gtk.MessageType.INFO,gtk.ButtonsType.OK, "这是一个信息消息对话框")
+	dialog.format_secondary_text("这里是副文本用于说明信息。")
+	dialog.run()
+	dialog.destroy()	
+    def buttonpress(self,widget, data):
+        if data=="blog":
+            self.blogurlshow()
+        elif data=="name":
+            self.mynameshow()
+	else:
+	    self.myname()
+    def delwin_event(self,widget,event,data=None):
+        #如果你在"delete_event"信号处理中，返回FALSE，GTK会继续发射这个信号，以供destroy,否则返回TRUE，表示这个信号已经被处理，不需要再处理了，也不需要再发射这个信号了，这意味着你不能destroy窗口。
+        print("delete event!")
+        return False
+    def destroy_win(self,widget,data=None):
+        #窗口销毁处理
+        print("destroy event!")        
+        gtk.main_quit()
+    def __init__(self):
+        #创建一个新窗口
+        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window.set_title("2个按钮的窗口")
+        #放入一个不可见的box,然后在里面放2个按钮,并设置回调
+        self.buttonbox = gtk.HBox(False, 0)
+        self.window.add(self.buttonbox) 
+        self.blogbutton = gtk.Button("我的博客")
+        self.namebutton = gtk.Button("我的名字")
+        self.name=gtk.Button("我")
+        self.blogbutton.connect("clicked", self.buttonpress, "blog")
+        self.namebutton.connect("clicked", self.buttonpress, "name") 
+        self.name.connect("clicked",self.buttonpress,"n")
+        #加入box
+        self.buttonbox.pack_start(self.blogbutton, True, True, 0)   
+        self.buttonbox.pack_start(self.namebutton, True, True, 0)  
+        self.buttonbox.pack_start(self.name, True, True, 0)
+        #显示
+        self.blogbutton.show()
+        self.name.show()
+        self.namebutton.show()
+        self.buttonbox.show()  
+        #指定窗口信号与相关处理事件
+        self.window.connect("delete_event", self.delwin_event)			
+        self.window.connect("destroy", self.destroy_win)
+        self.window.set_border_width(150)
+        #显示窗口
+        self.window.show()
+    def main(self):
+        gtk.main()
+if __name__ == "__main__":	
+	deep=DeepFuture()
+	deep.main()
