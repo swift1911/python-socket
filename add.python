@@ -1,0 +1,11 @@
+a=int(raw_input())
+b=int(raw_input())
+temp1=(str)(a+b)
+temp2=list(temp1)
+c=len(temp2)
+cc=0
+for i in range(c-1,1):
+    temp2[i]=d[i]
+    cc=cc+1
+    if cc%3==0:
+        print ','
